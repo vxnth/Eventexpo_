@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Event Service Booking</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1 class="title">Event Service Booking</h1>
+
+  <!-- Service Listing -->
+  <div class="service-list">
+    <div class="card">
+      <h2>DJ Services</h2>
+      <p>Price: ₹5000</p>
+      <p>Rating: ⭐ 4.5</p>
+      <p>Availability: Available</p>
+      <button onclick="openDetails('DJ Services', 5000, 4.5, 'Available')">Details</button>
+      <button onclick="openBooking('DJ Services')">Book Now</button>
+    </div>
+    <div class="card">
+      <h2>Wedding Photographer</h2>
+      <p>Price: ₹10000</p>
+      <p>Rating: ⭐ 4.8</p>
+      <p>Availability: Available</p>
+      <button onclick="openDetails('Wedding Photographer', 10000, 4.8, 'Available')">Details</button>
+      <button onclick="openBooking('Wedding Photographer')">Book Now</button>
+    </div>
+    <div class="card">
+      <h2>Catering</h2>
+      <p>Price: ₹20000</p>
+      <p>Rating: ⭐ 4.2</p>
+      <p>Availability: Limited</p>
+      <button onclick="openDetails('Catering', 20000, 4.2, 'Limited')">Details</button>
+      <button onclick="openBooking('Catering')">Book Now</button>
+    </div>
+  </div>
+
+  <!-- Service Detail Modal -->
+  <div id="detailModal" class="modal">
+    <div class="modal-content">
+      <h2 id="detailName"></h2>
+      <p id="detailPrice"></p>
+      <p id="detailRating"></p>
+      <p id="detailAvailability"></p>
+      <p>This service is perfect for your events and celebrations.</p>
+      <div class="actions">
+        <button onclick="closeModal('detailModal')">Close</button>
+        <button id="bookFromDetails">Book Now</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Booking Form Modal -->
+  <div id="bookingModal" class="modal">
+    <div class="modal-content">
+      <h2 id="bookingTitle"></h2>
+      <form id="bookingForm">
+        <input type="text" id="name" placeholder="Your Name" required>
+        <input type="email" id="email" placeholder="Your Email" required>
+        <input type="date" id="date" required>
+        <div class="actions">
+          <button type="button" onclick="closeModal('bookingModal')">Cancel</button>
+          <button type="submit">Confirm Booking</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    let selectedService = "";
+
+    function openDetails(name, price, rating, availability) {
+      selectedService = name;
+      document.getElementById("detailName").innerText = name;
+      document.getElementById("detailPrice").innerText = "Price: ₹" + price;
+      document.getElementById("detailRating").innerText = "Rating: ⭐ " + rating;
+      document.getElementById("detailAvailability").innerText = "Availability: " + availability;
+      document.getElementById("detailModal").style.display = "flex";
+
+      document.getElementById("bookFromDetails").onclick = function() {
+        closeModal('detailModal');
+        openBooking(name);
+      };
+    }
+
+    function openBooking(serviceName) {
+      selectedService = serviceName;
+      document.getElementById("bookingTitle").innerText = "Book " + serviceName;
+      document.getElementById("bookingModal").style.display = "flex";
+    }
+
+    function closeModal(id) {
+      document.getElementById(id).style.display = "none";
+    }
+
+    document.getElementById("bookingForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+      const name = document.getElementById("name").value;
+      const date = document.getElementById("date").value;
+      alert(`🎉 Booking Confirmed for ${selectedService} on ${date}. Thank you, ${name}!`);
+      closeModal("bookingModal");
+      e.target.reset();
+    });
+  </script>
+</body>
+</html>
